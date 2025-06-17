@@ -5,6 +5,7 @@ import com.example.basiclogin.dto.JoinRequest;
 import com.example.basiclogin.dto.LoginRequest;
 import com.example.basiclogin.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 로그인 ID 중복 검사 메서드
     public boolean checkLoginIdDuplicate(String loginId){
@@ -35,7 +37,8 @@ public class MemberService {
             return null;
         }
 
-        if (!findMember.getPassword().equals(loginRequest.getPassword())) {
+        // 암호화된 비밀번호 (passwordEncoder) 를 사용할 시 이 코드를 사용해야 함
+        if (!passwordEncoder.matches(loginRequest.getPassword(), findMember.getPassword())) {
             return null;
         }
 

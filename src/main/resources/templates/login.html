@@ -7,9 +7,9 @@
 </head>
 <body>
 <div>
-  <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+  <h1><a th:href="@{/{type}(type=${loginType})}">[[${pageName}]]</a></h1> <hr/>
   <h2>로그인</h2>
-  <form th:method="post" th:action="|@{/{loginType}/login (loginType=${loginType})}|" th:object="${loginRequest}">
+  <form th:method="post" th:action="@{/{type}/login(type=${loginType})}" th:object="${loginRequest}">
     <div>
       <label th:for="loginId">ID : </label>
       <input type="text" th:field="*{loginId}"/>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="|${pageName}|"></title>
+  <meta charset="UTF-8"/>
+  <title th:text="${pageName}">페이지 이름</title>
 </head>
 <body>
 <div>
-  <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+  <h1><a th:href="@{/{type}(type=${loginType})}">[[${pageName}]]</a></h1>
+  <hr/>
   <h2>회원 가입</h2>
-  <form th:method="post" th:action="|@{/{loginType}/join (loginType=${loginType})}|" th:object="${joinRequest}">
+  <form th:method="post" th:action="@{/{type}/join(type=${loginType})}" th:object="${joinRequest}">
     <div>
       <label th:for="loginId">ID : </label>
       <input type="text" th:field="*{loginId}" th:errorclass="error-input"/>
@@ -42,9 +42,9 @@
 
 <style>
   .error-class {
-      color: red;
+    color: red;
   }
   .error-input {
-      border-color: red;
+    border-color: red;
   }
 </style>

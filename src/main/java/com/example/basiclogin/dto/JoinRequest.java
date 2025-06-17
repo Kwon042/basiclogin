@@ -18,6 +18,8 @@ public class JoinRequest {
 
     @NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
+
+    @NotBlank(message = "비밀번호를 한번 더 입력하세요.")
     private String passwordCheck;
 
     @NotBlank(message = "이름을 입력하세요.")
