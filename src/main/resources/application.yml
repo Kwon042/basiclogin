@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   # DB 접속 정보 설정 => localhost:3306
   datasource:

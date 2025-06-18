@@ -1,6 +1,7 @@
 package com.example.basiclogin.service;
 
 import com.example.basiclogin.domain.Member;
+import com.example.basiclogin.domain.MemberRole;
 import com.example.basiclogin.dto.JoinRequest;
 import com.example.basiclogin.dto.LoginRequest;
 import com.example.basiclogin.repository.MemberRepository;
@@ -26,7 +27,19 @@ public class MemberService {
 
     // 회원가입 메서드
     public void join(JoinRequest joinRequest) {
-        memberRepository.save(joinRequest.toEntity());
+
+        MemberRole role = joinRequest.getLoginId().toLowerCase().contains("admin")
+                ? MemberRole.ADMIN
+                : MemberRole.USER;
+
+        Member member = Member.builder()
+                .loginId(joinRequest.getLoginId())
+                .password(passwordEncoder.encode(joinRequest.getPassword()))
+                .name(joinRequest.getName())
+                .role(role)
+                .build();
+
+        memberRepository.save(member);
     }
 
     // 로그인 메서드
@@ -51,6 +64,19 @@ public class MemberService {
 
         Optional<Member> findMember = memberRepository.findById(memberId);
         return findMember.orElse(null);
+    }
 
+    // 회원 탈퇴
+    public void withdraw(Long memberId) {
+        if (memberId == null) {
+            throw new IllegalArgumentException("회원 ID가 null입니다.");
+        }
+
+        boolean exists = memberRepository.existsById(memberId);
+        if (!exists) {
+            throw new IllegalStateException("해당 ID의 회원이 존재하지 않습니다.");
+        }
+
+        memberRepository.deleteById(memberId);
     }
 }
